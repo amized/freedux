@@ -12,7 +12,7 @@
   "author": "Amiel Zwier <amiel@amielzwier.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/amized/freedux.git"
   },
   "license": "MIT",
   "engines": {
@@ -126,7 +126,9 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "typedoc": "^0.15.4",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "docsify-cli": "^4.4.0",
+    "global": "^4.4.0"
   },
   "peerDependencies": {
     "react": ">= 16.9.x"

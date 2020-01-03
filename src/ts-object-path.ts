@@ -39,14 +39,18 @@ export function set<TObj>(
   const keyTyped = key as keyof TObj;
   const currentValue = o[keyTyped];
   // We were expecting the child value to be an object
-  if (path.length > 1 && typeof currentValue !== 'object') {
+  if (
+    path.length > 1 &&
+    (typeof currentValue !== 'object' || currentValue === null)
+  ) {
+    console.warn(
+      'Freedux: You are attempting to update the state of an unreachable property.'
+    );
     return o;
   }
 
   const newValue =
-    path.length > 1
-      ? set<TObj[keyof TObj]>(currentValue, value, remainingPath)
-      : value;
+    path.length > 1 ? set(currentValue, value, remainingPath) : value;
 
   if (newValue === currentValue) {
     return o;

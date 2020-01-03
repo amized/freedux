@@ -16,16 +16,9 @@ export type UseListener<T, TSelected> = {
 export interface Store<T> {
   subscribe(fn: (state: T) => void): () => void;
   useListener<TSelected>(selector: Selector<T, TSelected>): TSelected;
-  /**
-   * Retrieves a function that will update the state.
-   *
-   * @param selector Pass a selector function that returns a property from
-   * anywhere in your state tree. This is the property that will be updated.
-   *
-   * @return A 'set' function to update the state.
-   *
-   */
-
+  createSetter<TSelected>(
+    selector: Selector<T, TSelected>
+  ): Setter<T, TSelected>;
   useSetter<TSelected>(selector: Selector<T, TSelected>): Setter<T, TSelected>;
 }
 

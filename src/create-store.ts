@@ -43,7 +43,7 @@ function createStore<T>(initialState: T): Store<T> {
     return localState;
   }
 
-  function useSetter<TSelected>(selector: Selector<T, TSelected>) {
+  function createSetter<TSelected>(selector: Selector<T, TSelected>) {
     const proxySelector = (selector as any) as ObjProxyArg<T, TSelected>;
     const path = getPath(proxySelector);
 
@@ -62,15 +62,19 @@ function createStore<T>(initialState: T): Store<T> {
       }
     };
 
-    const setState = useCallback(doSet, [path, selector]);
+    return doSet;
+  }
 
-    return setState;
+  function useSetter<TSelected>(selector: Selector<T, TSelected>) {
+    const setter = createSetter(selector);
+    return useCallback(setter, [selector]);
   }
 
   return {
     subscribe,
     useListener,
-    useSetter
+    useSetter,
+    createSetter
   };
 }
 
