@@ -18,10 +18,8 @@ to the raw state, and then calculating your result with `useMemo` from React.
 ```javascript
 import { useMemo } from 'react';
 
-...
-
 const MyComponent = () => {
-	const todos = store.useListener(state => state.todos);
+	const todos = useListener(state => state.todos);
 	const result = useMemo(() => someExpensiveFunction(todos), [todos]);
 });
 

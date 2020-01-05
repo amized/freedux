@@ -3,9 +3,9 @@
 Single tree global state management for the modern React, without the bloat.
 
 The idea of Freedux is to give you a single, immutable, strongly typed object
-tree that can be shared easily across your components. This is similar to redux,
-but unlike redux, the Api is super simple and requires minimum boiler plate code
-to use.
+tree that can be shared easily across your components. This is a similar concept
+to redux, but unlike redux, the Api is super simple and requires minimum boiler
+plate code to use.
 
 ## Features
 
@@ -13,7 +13,7 @@ to use.
 - Modern hooks based API
 - Render optimization
 - APIs for usage outside of React
-- State represented in plain JS primitives and objects
+- State data stored as plain JS primitives and objects
 - Strongly typed
 
 This project uses a fork from the
@@ -71,4 +71,4 @@ const CountButton = () => {
 ```
 
 Those are the basics. Check out the [example](example.md) and
-[API docs](example.md), and happy coding!
+[API docs](store.md), and happy coding!

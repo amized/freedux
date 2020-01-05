@@ -184,3 +184,68 @@ describe('store.subscribe', () => {
     expect(spy.callCount).toBe(0);
   });
 });
+
+describe('store.batch', () => {
+  it('Should update the store', () => {
+    const store = createStore({ count: 0 });
+    const setCount = store.createSetter(root => root.count);
+    const { result } = renderHook(() => store.useListener(root => root.count));
+
+    expect(result.current).toBe(0);
+
+    act(() => {
+      store.batch(() => {
+        setCount(5);
+      });
+    });
+
+    expect(result.current).toBe(5);
+  });
+
+  it('Should only result in a single render', () => {
+    const store = createStore({ count: 0 });
+    const setCount = store.createSetter(root => root.count);
+    let renderCount = 0;
+
+    const Wrapper = () => {
+      renderCount++;
+      const value = store.useListener(root => root.count);
+      return <div id="id">{value}</div>;
+    };
+
+    const result = render(<Wrapper />);
+    expect(renderCount).toBe(1);
+
+    reactDomAct(() => {
+      store.batch(() => {
+        setCount(5);
+        setCount(6);
+        setCount(7);
+        setCount(8);
+      });
+    });
+    expect(renderCount).toBe(2);
+  });
+  it('Should not update if there was no change', () => {
+    const store = createStore({ count: 0 });
+    const setCount = store.createSetter(root => root.count);
+    let renderCount = 0;
+
+    const Wrapper = () => {
+      renderCount++;
+      const value = store.useListener(root => root.count);
+      return <div id="id">{value}</div>;
+    };
+
+    const result = render(<Wrapper />);
+    expect(renderCount).toBe(1);
+
+    reactDomAct(() => {
+      store.batch(() => {
+        setCount(0);
+        setCount(0);
+      });
+    });
+    expect(renderCount).toBe(1);
+  });
+});

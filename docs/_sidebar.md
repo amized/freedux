@@ -5,8 +5,8 @@
 
 - API
 
-  - [createStore](create-store.md)
   - [Store](store.md)
+  - [createStore](create-store.md)
 
 - Tips
   - [Context](context.md)

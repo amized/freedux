@@ -4,7 +4,7 @@ Freedux is unopinionated about whether to use
 [React context](https://reactjs.org/docs/context.html) to share your store
 between components. It's fine to think of your Freedux store as a shared module
 that can be imported into the components that need them. If you want to use the
-"shared module" approach, we recommend putting your set up code into `store.js`
+shared module approach, we recommend putting your set up code into `store.js`
 and importing your hooks from there:
 
 ```javascript
@@ -12,6 +12,7 @@ and importing your hooks from there:
 import { createStore } from 'freedux';
 
 const { useSetter, useListener } = createStore(...);
+
 export { useSetter, useListener };
 
 
@@ -31,8 +32,7 @@ export const store = createStore(...);
 export const StoreContext = createContext(store);
 
 
-// app.js
-// Wrap your app in a Provider
+// app.js - Wrap your app in a Provider
 import { StoreContext, store } from './store-context.js';
 
 const App = () => (
@@ -42,13 +42,21 @@ const App = () => (
 );
 
 
-// hooks.js
-// Make some custom hooks
-import { useContext } from 'react';
-import { StoreContext } from './store-context.js';
+// hooks.js - Make some custom hooks for convenience
+import { useContext } from "react";
+import StoreContext from "./context";
 
-export const useListener = () => useContext(StoreContext).useListener;
-export const useSetter = () => useContext(StoreContext).useSetter;
+export const useListener = (selector) => {
+  const { useListener } = useContext(StoreContext);
+  return useListener(selector);
+};
+
+export const useSetter = (selector) => {
+  const { useSetter } = useContext(StoreContext);
+  return useSetter(selector);
+};
+
+
 
 // component.js
 import { useListener } from './hooks';

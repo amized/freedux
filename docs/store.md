@@ -4,7 +4,9 @@ The store is an object that provides the methods to interact with your state
 tree, and is created using [createStore()](create-store.md). A store provides
 the following methods:
 
-## useListener(selector: Selector<T, V>): V
+## useListener()
+
+`useListener(selector: Selector<T, V>): V`
 
 A React hook to retrieve a value from your store. Pass a function which selects
 (or calculates) the data from the root state. Your component will only re-render
@@ -27,7 +29,9 @@ const MyComponent = () => {
 };
 ```
 
-## useSetter(selector: Selector<T, V>): Function
+## useSetter()
+
+`useSetter(selector: Selector<T, V>): Function`
 
 A React hook to retrieve a function that will update the state. Pass a function
 which selects the property within your tree that you want to update.
@@ -137,11 +141,13 @@ const CountButton = () => {
 This saves you from having to use a `useListener` hook in your component if you
 just need the state for the purpose of the update, rather than for rendering.
 
-## createSetter(selector: Selector<T, V>): Function
+## createSetter()
+
+`createSetter(selector: Selector<T, V>): Function`
 
 Being almost identical to `useSetter`, `createSetter` returns a function that
-will update your state, but can be used outside of a react component. This can
-be useful for things like interacting with non-react libraries, or user events.
+will update your state, but can be used outside of a react component. This
+allows you to have any type event interact with your state.
 
 ```javascript
 const { createSetter } = createStore({
@@ -158,7 +164,34 @@ lib.onLogin(() => {
 });
 ```
 
-## subscribe(cb: Function): Function
+## batch()
+
+`batch(fn: Function): void`
+
+If you need to run multiple calls to setters sequentially, wrap them in a
+`batch()` so that listeners only get notified once after the batch is complete.
+This is an optimization that you probably won't need, but could help performance
+if you have a large number of components all using listeners.
+
+```javascript
+const { batch, createSetter } = createStore({
+  count: 0
+});
+
+const setCount = createSetter(root => root.count);
+
+batch(() => {
+  setCount(1);
+  setCount(2);
+  setCount(1000);
+});
+
+// State only updates once
+```
+
+## subscribe()
+
+`subscribe(cb: Function): Function`
 
 Subscribes to all state changes in your store using a callback function. The
 updated root state is passed to your callback. This can be used for any

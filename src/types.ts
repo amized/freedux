@@ -20,6 +20,7 @@ export interface Store<T> {
     selector: Selector<T, TSelected>
   ): Setter<T, TSelected>;
   useSetter<TSelected>(selector: Selector<T, TSelected>): Setter<T, TSelected>;
+  batch(fn: Function): void;
 }
 
 export type ObjPathProxy<TRoot, T> = {

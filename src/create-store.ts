@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { set, getPath } from './ts-object-path';
 import { Selector, Store, ObjProxyArg, Updater, Setter } from './types';
 
@@ -10,6 +10,7 @@ function isUpdater<T, TSelected>(
 
 function createStore<T>(initialState: T): Store<T> {
   let rootState = initialState;
+  let isBatching = false;
   const subscriptions: Array<(state: T) => void> = [];
 
   function subscribe(fn: (state: T) => void) {
@@ -22,6 +23,16 @@ function createStore<T>(initialState: T): Store<T> {
 
   function notifyChange(): void {
     subscriptions.forEach(fn => fn(rootState));
+  }
+
+  function batch(fn: Function): void {
+    const stateBefore = rootState;
+    isBatching = true;
+    fn();
+    isBatching = false;
+    if (stateBefore !== rootState) {
+      notifyChange();
+    }
   }
 
   function useListener<TSelected>(selector: Selector<T, TSelected>) {
@@ -58,7 +69,9 @@ function createStore<T>(initialState: T): Store<T> {
       const newState = set(rootState, newValue, path);
       if (newState !== rootState) {
         rootState = newState;
-        notifyChange();
+        if (!isBatching) {
+          notifyChange();
+        }
       }
     };
 
@@ -74,7 +87,8 @@ function createStore<T>(initialState: T): Store<T> {
     subscribe,
     useListener,
     useSetter,
-    createSetter
+    createSetter,
+    batch
   };
 }
 

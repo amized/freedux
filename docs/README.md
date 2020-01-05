@@ -1,20 +1,75 @@
-# React Free State
+# Freedux
 
-Single-tree, type safe state management for React without the bloat.
+Single tree global state management for the modern React, without the bloat.
 
-## Introduction
+The idea of Freedux is to give you a single, immutable, strongly typed object
+tree that can be shared easily across your components. This is a similar concept
+to redux, but unlike redux, the Api is super simple and requires minimum boiler
+plate code to use.
 
-For React there are many ways of managing the state of your application. Since
-hooks have become popular a common pattern is to default to using a `useState`
-hook.
+## Features
 
-For those familiar with redux, freedux also uses a single immutable object tree
-to store the state of your application. But unlike redux, the Api requires
-minimum boiler plate code, freeing you from the bloat of reducers, actions,
-context, and dealing with immutability.
+- Lightweight - 5k zipped
+- Modern hooks based API
+- Render optimization
+- APIs for usage outside of React
+- State represented in plain JS primitives and objects
+- Strongly typed
+
+This project uses a fork from the
+[ts-object-path](https://github.com/Taras-Tymchiy/ts-object-path#readme)
+library.
+
+## Install
+
+```console
+npm install freedux
+```
 
 ## Usage
 
-## API
+### 1. Create your store
 
-##Tips
+```javascript
+import { createStore } from 'freedux';
+
+// Define your initial state
+const initialState = {
+  count: 0
+};
+
+// Create your store to retrieve some hooks
+const { useListener, useSetter } = createStore(initialState);
+```
+
+### 2. Listen to state changes
+
+Use the `useListener` hook to select and inject state into your component:
+
+```javascript
+const CountDisplay = () => {
+  const count = useListener(state => state.count);
+  return <>{count}</>;
+};
+```
+
+### 3. Make updates
+
+Use the `useSetter` hook to update your store. You pass a function that returns
+the property you want to update. The hook returns a setter function to do that
+work:
+
+```javascript
+const CountButton = () => {
+  const setCount = useSetter(state => state.count);
+  return (
+    <button onClick={()=>{setCount(5)}>
+      Set the counter to 5
+    </button>
+  );
+};
+```
+
+Those are the basics. Check out the
+[example](https://amized.github.io/freedux/#/example) and
+[API docs](https://amized.github.io/freedux/#/store), and happy coding!
