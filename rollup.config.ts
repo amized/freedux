@@ -1,23 +1,26 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import camelCase from 'lodash.camelcase';
 import typescript from 'rollup-plugin-typescript2';
 import react from 'react';
-import json from 'rollup-plugin-json';
+import json from '@rollup/plugin-json';
 
 const pkg = require('./package.json');
 
 const libraryName = 'react-global-state';
 
 export default {
-  input: `src/${libraryName}.ts`,
+  input: `src/index.ts`,
   output: [
     {
       file: pkg.main,
       name: camelCase(libraryName),
       format: 'umd',
-      sourcemap: true
+      sourcemap: true,
+      globals: {
+        react: 'React'
+      }
     },
     { file: pkg.module, format: 'es', sourcemap: true }
   ],

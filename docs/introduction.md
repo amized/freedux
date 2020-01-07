@@ -1,11 +1,11 @@
 # Freedux
 
-Single tree global state management for the modern React, without the bloat.
+_Single tree global state management for the modern React, without the bloat._
 
 The idea of Freedux is to give you a single, immutable, strongly typed object
-tree that can be shared easily across your components. This is a similar concept
-to redux, but unlike redux, the Api is super simple and requires minimum boiler
-plate code to use.
+tree that can be used to store the state of your application. This is a similar
+concept to redux, but unlike redux, the Api is super simple and requires minimum
+set up code to use.
 
 ## Features
 
@@ -63,7 +63,11 @@ work:
 const CountButton = () => {
   const setCount = useSetter(state => state.count);
   return (
-    <button onClick={()=>{setCount(5)}>
+    <button
+      onClick={() => {
+        setCount(5);
+      }}
+    >
       Set the counter to 5
     </button>
   );

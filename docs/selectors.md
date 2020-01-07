@@ -18,16 +18,44 @@ const {useSetter, useListener} = createStore({
 });
 
 
-// BAD
-const setItem = useSetter(root =>
-  root.todos.find(item => item.id === props.id)
-)
+// Assume the item id is passed through props
+const TodoItemCard = () => {
 
-// BETTER
-const index = useListener(root => root.todos.findIndex(i => i.id === item.id));
-const setItem = useSetter(root => root.todos[index]);
+  // Bad
+  // An error will be thrown because we cannot
+  // call a method on our state inside the selector
+  const setItem = useSetter(root =>
+    root.todos.find(todo => todo.id === props.id)
+  )
+
+  // Better
+  const index = useListener(root => root.todos.findIndex(todo => todo.id === props.id));
+  const setItem = useSetter(root => root.todos[index]);
+
+  ...
+}
 ```
 
-Consider also, that if you're trying to access an object based on its id
-property, an array structure for your store may not be the best choice. You
-could store items as a map, and then convert them into an array for rendering.
+If it's inconvininent for you to use the index to find the object, or if you
+want to optimize performance, you can create a custom function which uses a
+setter on the containing object. The setter update function can do the work of
+finding which item needs to be updated and return a new list. This saves you
+from having to use a `useListener`:
+
+```javascript
+const TodoItemCard = () => {
+  const setTodos = useSetter(root => root.todos);
+
+  const setItem = (data: TodoItem) => {
+    setTodos(todos => {
+      return todos.map(todo => (todo.id === props.id ? data : todo));
+    });
+  };
+
+  ...
+
+  setItem({
+    id: 5,
+    name: 'Some new todo'
+  });
+```

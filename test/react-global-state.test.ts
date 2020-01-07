@@ -1,4 +1,4 @@
-import { createStore } from '../src/react-global-state';
+import { createStore } from '../src/index';
 
 /**
  * Dummy test
