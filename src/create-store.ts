@@ -26,6 +26,10 @@ function createStore<T>(initialState: T): Store<T> {
   }
 
   function batch(fn: Function): void {
+    if (isBatching) {
+      fn();
+      return;
+    }
     const stateBefore = rootState;
     isBatching = true;
     fn();

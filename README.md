@@ -63,7 +63,11 @@ work:
 const CountButton = () => {
   const setCount = useSetter(state => state.count);
   return (
-    <button onClick={()=>{setCount(5)}>
+    <button
+      onClick={() => {
+        setCount(5);
+      }}
+    >
       Set the counter to 5
     </button>
   );
