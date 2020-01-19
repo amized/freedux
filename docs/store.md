@@ -175,15 +175,19 @@ if you have a large number of components all using listeners.
 
 ```javascript
 const { batch, createSetter } = createStore({
-  count: 0
+  count: 0,
+  user: null
 });
 
 const setCount = createSetter(root => root.count);
+const setUser = createSetter(root => root.user);
 
 batch(() => {
   setCount(1);
+  setUser({
+    firstName: 'John'
+  });
   setCount(2);
-  setCount(1000);
 });
 
 // State only updates once

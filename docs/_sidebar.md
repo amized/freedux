@@ -8,7 +8,7 @@
   - [Store](store.md)
   - [createStore](create-store.md)
 
-- Tips
+- Tips & Trips
   - [Context](context.md)
   - [Immutability](immutability.md)
   - [Derived Data](derived-data.md)

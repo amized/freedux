@@ -1,8 +1,23 @@
 {
   "name": "freedux",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "Next generation global state management for React, without the bloat.",
+  "keywords": [
+    "useState",
+    "redux",
+    "global state",
+    "redux",
+    "reducer",
+    "state",
+    "predictable",
+    "functional",
+    "immutable",
+    "hot",
+    "live",
+    "replay",
+    "flux",
+    "elm"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es5.js",
   "types": "dist/types/index.d.ts",
@@ -10,6 +25,7 @@
     "dist"
   ],
   "author": "Amiel Zwier <amiel@amielzwier.com>",
+  "homepage": "https://amized.github.io/freedux",
   "repository": {
     "type": "git",
     "url": "https://github.com/amized/freedux.git"
@@ -26,6 +42,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
+    "docs:serve": "docsify serve ./docs",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",

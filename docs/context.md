@@ -57,7 +57,6 @@ export const useSetter = (selector) => {
 };
 
 
-
 // component.js
 import { useListener } from './hooks';
 ...

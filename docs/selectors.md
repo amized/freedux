@@ -37,18 +37,17 @@ const TodoItemCard = () => {
 ```
 
 If it's inconvininent for you to use the index to find the object, or if you
-want to optimize performance, you can create a custom function which uses a
-setter on the containing object. The setter update function can do the work of
-finding which item needs to be updated and return a new list. This saves you
-from having to use a `useListener`:
+want to optimize performance, you can use a setter on the containing object. The
+setter update function can do the work of finding which item needs to be updated
+and return a new list. This saves you from having to use a `useListener`:
 
 ```javascript
 const TodoItemCard = () => {
   const setTodos = useSetter(root => root.todos);
 
-  const setItem = (data: TodoItem) => {
+  const setItem = (newTodo) => {
     setTodos(todos => {
-      return todos.map(todo => (todo.id === props.id ? data : todo));
+      return todos.map(todo => (todo.id === newTodo.id) ? newTodo : todo);
     });
   };
 
