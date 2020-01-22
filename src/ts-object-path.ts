@@ -37,7 +37,7 @@ export function set<TObj>(
 ): TObj {
   const [key, ...remainingPath] = path;
   const keyTyped = key as keyof TObj;
-  const currentValue = o[keyTyped];
+  const currentValue = o[keyTyped] as any;
   // We were expecting the child value to be an object
   if (
     path.length > 1 &&

@@ -1,6 +1,6 @@
 - About
 
-  - [Introduction](introduction.md)
+  - [Introduction](README.md)
   - [Example](example.md)
 
 - API
